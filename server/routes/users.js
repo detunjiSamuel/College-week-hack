@@ -13,9 +13,6 @@ const auth = require('../middleware/auth');
 const User = require('../models/User');
 
 
-
-
-
 /* Register User */
 router.post(
   '/',
@@ -32,7 +29,7 @@ router.post(
     }
 
     const { name, email, password } = req.body;
-
+    console.log(`${email}`)
     try {
       let user = await User.findOne({ email });
 

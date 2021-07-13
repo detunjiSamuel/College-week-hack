@@ -5,9 +5,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const authMiddleware  = require('./middleware/auth');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const decksRouter =  require('./routes/decks');
 const { DB_URI }  = process.env;
 const app = express();
 
@@ -39,6 +41,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
+app.use('/deck', authMiddleware, decksRouter);
+
+/**
+ * Methods to create
+ * Create Deck user title is_public
+ * Delete Deck deckId
+ * Update Deck
+ * 
+ * Create Card user deckId front back
+ * Update Card
+ * Delete card
+ * 
+ * 
+ * 
+ */
 
 module.exports = app;
