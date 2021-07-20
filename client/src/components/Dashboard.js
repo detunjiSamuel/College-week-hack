@@ -24,6 +24,7 @@ const Dashboard = ({
 }) => {
   const [deckToEdit, setDeckToEdit] = useState(null);
   const { user } = useContext(firebaseAuth);
+  console.log(user)
 
   if (!user) {
     return (
@@ -33,6 +34,8 @@ const Dashboard = ({
       </div>
     );
   }
+
+  
 
   return (
     <div className="dashboard">

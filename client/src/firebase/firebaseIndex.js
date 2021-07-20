@@ -9,12 +9,12 @@ import 'firebase/firestore';
 
 // firebase stuff
 var firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyAbP-FqlkPx3L4BBNU1xfKLxzXm0uzfjoo",
+  authDomain: "nmesoma-anene.firebaseapp.com",
+  projectId: "nmesoma-anene",
+  storageBucket: "nmesoma-anene.appspot.com",
+  messagingSenderId: "940476573692",
+  appId: "1:940476573692:web:68409a1a499ffeea217479"
 };
 
 firebase.initializeApp(firebaseConfig);

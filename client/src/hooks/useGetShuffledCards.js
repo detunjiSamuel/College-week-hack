@@ -1,12 +1,12 @@
 /**
- * Hook which subscribes to the collection of cards in the 
+ * Hook which subscribes to the collection of cards in the
  * firestore database.
  */
 
 import { useState, useEffect } from 'react';
 import firebase from 'firebase';
-
-const useGetShuffledCards = (user, deckIds) => {
+import axios from 'axios';
+const useGetShuffledCards = (user, deckIds, holder) => {
   const db = firebase.firestore();
   const [cards, setCards] = useState([]);
 
@@ -22,18 +22,41 @@ const useGetShuffledCards = (user, deckIds) => {
     }
 
     let ref = db.collection('cards');
-    let unsubscribe = ref.where("deckId", "in", deckIds).onSnapshot((snapshot) => {
-      let arr = [];
-      snapshot.forEach(card => arr.push(card.data()));
-      setCards(arr);
-      /* console.log("Cards updated: ", arr) */
-    }, (error) => {
-      console.log("Error: ", error.message)
-    })
+    let unsubscribe = ref.where('deckId', 'in', deckIds).onSnapshot(
+      (snapshot) => {
+        let arr = [];
+        for (let i of holder) {
+          axios
+            .get(
+              `https://opentdb.com/api.php?amount=10&category=${i}&type=multiple`
+            )
+            .then((res) => {
+              const { data } = res;
+              const { results } = data;
+              console.log(results);
+
+              for (let result of results) {
+                arr.push({
+                  front: result.question,
+                  owner: user.uid,
+                  back: result.correct_answer,
+                  deckId: `P${results.category}${user.uid}`,
+                });
+              }
+            });
+          snapshot.forEach((card) => arr.push(card.data()));
+        }
+        setCards(arr);
+        /* console.log("Cards updated: ", arr) */
+      },
+      (error) => {
+        console.log('Error: ', error.message);
+      }
+    );
     return () => unsubscribe();
-  }, [user, deckIds])
+  }, [user, deckIds]);
 
   return { cards };
-}
+};
 
 export default useGetShuffledCards;

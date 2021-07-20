@@ -40,9 +40,11 @@
    const [shuffledCards, setShuffledCards] = useState([]);
  
    const history = useHistory();
+   let holder = Array.from({length: 3}, () =>Math.floor(Math.random() * (30-10 + 1)) +10);
+
    const { user } = useContext(firebaseAuth);
-   const { decks } = useOnDecksSnapshot(user);
-   const { cards } = useGetShuffledCards(user, selectedDecks);
+   const { decks } = useOnDecksSnapshot(user , holder);
+   const { cards } = useGetShuffledCards(user, selectedDecks , holder);
  
     /* Update the 'shuffledCards' array whenever 'cards'
        is updated via onSnapshot in firestore. */
