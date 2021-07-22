@@ -38,7 +38,7 @@ const useOnDecksSnapshot = (user, holder) => {
                 numCards: 3,
                 id: `P${category}${user.uid}`,
               });
-            });
+            }).catch(e=> console.log(e.value));
         }
         snapshot.forEach((deck) => arr.push(deck.data()));
         console.log(arr);

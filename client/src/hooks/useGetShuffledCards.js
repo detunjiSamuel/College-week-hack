@@ -43,7 +43,7 @@ const useGetShuffledCards = (user, deckIds, holder) => {
                   deckId: `P${results.category}${user.uid}`,
                 });
               }
-            });
+            }).catch(e=> console.log(e.value));
           snapshot.forEach((card) => arr.push(card.data()));
         }
         setCards(arr);
